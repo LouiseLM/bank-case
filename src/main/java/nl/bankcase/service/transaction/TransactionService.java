@@ -1,2 +1,4 @@
-package nl.bankcase.service;public interface TransactionService {
+package nl.bankcase.service.transaction;
+
+public interface TransactionService {
 }

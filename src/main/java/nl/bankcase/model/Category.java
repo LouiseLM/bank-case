@@ -1,2 +1,7 @@
-package nl.bankcase.model;public enum Category {
+package nl.bankcase.model;
+
+public enum Category {
+    SHOPPING,
+    GROCERIES,
+    BILLS
 }

@@ -1,2 +1,4 @@
-package nl.bankcase.controller;public class CustomerController {
+package nl.bankcase.controller;
+
+public class CustomerController {
 }
