@@ -6,18 +6,18 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryCustomerRepoTest {
-    private CustomerRepo customerRepo = InMemoryCustomerRepo.getInstance();
+    private CustomerRepo customerRepo;
 
     @Test
     void saveCustomer() {
         //Arrange
-        Customer customer = new Customer("TestCase", "123");
+        Customer customer = new Customer("TestCase", 123L);
 
         //Act
-        customerRepo.SaveCustomer(customer);
+        customerRepo.saveCustomer(customer);
 
         //Assert
-        assertNotNull(customerRepo.getCustomerById("123"));
+        assertNotNull(customerRepo.getCustomerById(123L));
     }
 
     @Test
@@ -29,35 +29,11 @@ class InMemoryCustomerRepoTest {
     }
 
     @Test
-    void getCustomer() {
-        //Arrange
-        Customer customer = new Customer("TestCase", "123");
-
-        //Act
-        customerRepo.SaveCustomer(customer);
-
-        //Assert
-        assertEquals(customer, customerRepo.getCustomer(customer));
-    }
-
-    @Test
     void getCustomerById() {
         //Arrange
         //Act
         //Assert
-        assertNotNull(customerRepo.getCustomerById("1"));
-    }
-
-    @Test
-    void deleteCustomer() {
-        //Arrange
-        int listSize = customerRepo.listCustomers().size();
-
-        //Act
-        customerRepo.deleteCustomer(customerRepo.getCustomerById("3"));
-
-        //Assert
-        assertNotEquals(listSize, customerRepo.listCustomers().size());
+        assertNotNull(customerRepo.getCustomerById(1L));
     }
 
     @Test
@@ -66,7 +42,7 @@ class InMemoryCustomerRepoTest {
         int listSize = customerRepo.listCustomers().size();
 
         //Act
-        customerRepo.deleteCustomerById("3");
+        customerRepo.deleteCustomerById(3L);
 
         //Assert
         assertNotEquals(listSize, customerRepo.listCustomers().size());

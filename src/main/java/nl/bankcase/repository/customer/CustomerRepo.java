@@ -4,11 +4,9 @@ import nl.bankcase.model.Customer;
 
 import java.util.List;
 
-public interface CustomerRepo { //TODO insert DB logic & CRUD
-    void SaveCustomer(Customer customer);
+public interface CustomerRepo {
+    Customer saveCustomer(Customer customer);
     List<Customer> listCustomers();
-    Customer getCustomerById(String id);
-    Customer getCustomer(Customer customer);
-    void deleteCustomerById(String id);
-    void deleteCustomer(Customer customer);
+    Customer getCustomerById(Long id);
+    void deleteCustomerById(Long id);
 }

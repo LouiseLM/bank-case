@@ -1,28 +1,42 @@
 package nl.bankcase.service.customer;
 
-import nl.bankcase.model.Account;
 import nl.bankcase.model.Customer;
-import nl.bankcase.repository.customer.CustomerRepo;
-import nl.bankcase.repository.customer.InMemoryCustomerRepo;
-import nl.bankcase.service.customer.CustomerService;
+import nl.bankcase.repository.customer.JPACustomerRepo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+@Service
 public class CustomerServiceImpl implements CustomerService {
-    private CustomerRepo customerRepo = InMemoryCustomerRepo.getInstance();
+    private final JPACustomerRepo customerRepo;
 
-    public CustomerServiceImpl(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(@Autowired JPACustomerRepo customerRepo) {
         this.customerRepo = customerRepo;
     }
 
-    @Override
-    public void newCustomer(String name, String id) {
-        customerRepo.SaveCustomer(new Customer(name, id));
+    public Customer newCustomer(String name) {
+        return customerRepo.save(new Customer(name));
     }
 
     @Override
-    public List<Account> accountsList(Customer customer) {
-        return new ArrayList<>(customer.getAccounts());
+    public List<Customer> listCustomers() {
+        return customerRepo.findAll();
     }
+
+    @Override
+    public Optional<Customer> getCustomerById(Long id) {
+        return customerRepo.findById(id);
+    }
+
+    @Override
+    public void deleteCustomerById(Long id) {
+        customerRepo.deleteById(id);
+    }
+
+//    @Override
+//    public List<Account> accountsList(Customer customer) {
+//        return new ArrayList<>(customer.getAccounts());
+//    }
 }

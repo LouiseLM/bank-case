@@ -1,27 +1,40 @@
 package nl.bankcase.model;
 
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class Customer {
-    private final String name;
-    private final String id;
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    private final Long id = null;
+    private String name = null;
+
+    @OneToMany(mappedBy = "customer")
     private List<Account> accounts = new ArrayList<>();
 
-    public Customer(String name, String id) {
-        this.name = name;
-        this.id = id;
+    protected Customer() {
     }
 
-    public String getId() {
+    public Customer(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
-    }
-
-    public void addAccount(Account account) {
-        accounts.add(account);
-    }
+//    public List<Account> getAccounts() {
+//        return accounts;
+//    }
+//
+//    public void addAccount(Account account) {
+//        accounts.add(account);
+//    }
 }

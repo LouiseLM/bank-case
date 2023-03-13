@@ -1,11 +1,14 @@
 package nl.bankcase.service.customer;
 
-import nl.bankcase.model.Account;
 import nl.bankcase.model.Customer;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService { //insert business logic
-    void newCustomer(String name, String id);
-    List<Account> accountsList(Customer customer);
+    Customer newCustomer(String name);
+    List<Customer> listCustomers();
+    Optional<Customer> getCustomerById(Long id);
+    void deleteCustomerById(Long id);
+    //List<Account> accountsList(Customer customer);
 }

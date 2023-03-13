@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 public class InMemoryAccountRepo implements AccountRepo {
-    private Map<String, Account> accountMap = new HashMap<>();
-    private static InMemoryAccountRepo instance = new InMemoryAccountRepo();
+    private final Map<String, Account> accountMap = new HashMap<>();
+    private static final InMemoryAccountRepo instance = new InMemoryAccountRepo();
 
     public static InMemoryAccountRepo getInstance() {
         return instance;
@@ -31,17 +31,7 @@ public class InMemoryAccountRepo implements AccountRepo {
     }
 
     @Override
-    public Account getAccount(Account account) {
-        return accountMap.get(account.getIban());
-    }
-
-    @Override
     public void deleteAccountByIban(String iban) {
         accountMap.remove(iban);
-    }
-
-    @Override
-    public void deleteAccount(Account account) {
-        accountMap.remove(account.getIban());
     }
 }

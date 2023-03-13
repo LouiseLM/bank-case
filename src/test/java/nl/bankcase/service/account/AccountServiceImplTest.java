@@ -1,25 +1,36 @@
 package nl.bankcase.service.account;
 
 import nl.bankcase.model.Customer;
-import nl.bankcase.repository.account.AccountRepo;
-import nl.bankcase.repository.account.InMemoryAccountRepo;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class AccountServiceImplTest {
-    private AccountRepo accountRepo = InMemoryAccountRepo.getInstance();
-    private AccountServiceImpl accountService = new AccountServiceImpl(accountRepo);
 
     @Test
     void shouldSucceedAddNewAccount() {
+    }
+
+    @Test
+    void listAccounts() {
         //Arrange
-        Customer customer = new Customer("Test Name", "1234");
-
         //Act
-        accountService.newAccount(customer);
-
         //Assert
-        assertEquals("01", customer.getAccounts().get(0).getIban());
+    }
+
+    @Test
+    void getAccountByIban() {
+        //Arrange
+        //Act
+        //Assert
+    }
+
+    @Test
+    void deleteAccountByIban() {
+        //Arrange
+        //Act
+        //Assert
     }
 }
