@@ -1,32 +1,41 @@
 package nl.bankcase.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Entity
 public class Transaction {
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
     private Category category;
-    private double c02Footprint; //TODO Find out how to do this
+    //private double c02Footprint; //TODO Find out how to do this
     private BigDecimal amount = BigDecimal.valueOf(0);
 
     protected Transaction() {}
 
-    public Transaction(Category category, double c02Footprint, BigDecimal amount) {
-        this.category = category;
-        this.c02Footprint = c02Footprint;
+    public Transaction(Account account, BigDecimal amount) {
+        this.account = account;
         this.amount = amount;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
+    }
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public Optional<BigDecimal> getCo2Footprint() {
+        if (category == null) {
+            return Optional.empty();
+        } else {
+            return Optional.of(amount.multiply(category.getCoefficient()));
+        }
     }
 }

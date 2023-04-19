@@ -30,11 +30,7 @@ public class Customer {
         return id;
     }
 
-//    public List<Account> getAccounts() {
-//        return accounts;
-//    }
-//
-//    public void addAccount(Account account) {
-//        accounts.add(account);
-//    }
+    public List<Account> getAccounts() {
+        return List.copyOf(accounts);
+    }
 }

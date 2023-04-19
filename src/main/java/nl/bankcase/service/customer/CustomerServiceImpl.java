@@ -1,19 +1,24 @@
 package nl.bankcase.service.customer;
 
+import nl.bankcase.model.Account;
 import nl.bankcase.model.Customer;
 import nl.bankcase.repository.customer.JPACustomerRepo;
+import nl.bankcase.service.account.AccountService;
+import nl.bankcase.utils.DoesNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final JPACustomerRepo customerRepo;
+    private final AccountService accountService;
 
-    public CustomerServiceImpl(@Autowired JPACustomerRepo customerRepo) {
+    public CustomerServiceImpl(@Autowired JPACustomerRepo customerRepo, AccountService accountService) {
         this.customerRepo = customerRepo;
+        this.accountService = accountService;
     }
 
     public Customer newCustomer(String name) {
@@ -26,17 +31,16 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Long id) {
-        return customerRepo.findById(id);
+    public Customer getCustomerById(Long id) {
+        return customerRepo.findById(id).orElseThrow(DoesNotExistException::new);
     }
 
+    @Transactional
     @Override
     public void deleteCustomerById(Long id) {
+        for (Account account : accountService.listAccounts(id)) {
+            accountService.deleteAccountByIban(account.getIban());
+        }
         customerRepo.deleteById(id);
     }
-
-//    @Override
-//    public List<Account> accountsList(Customer customer) {
-//        return new ArrayList<>(customer.getAccounts());
-//    }
 }

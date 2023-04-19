@@ -1,23 +1,27 @@
 package nl.bankcase.service.account;
 
+import nl.bankcase.model.Transaction;
+import nl.bankcase.service.transaction.TransactionService;
+import nl.bankcase.utils.DoesNotExistException;
 import nl.bankcase.model.Account;
 import nl.bankcase.repository.account.JPAAccountRepo;
 import nl.bankcase.repository.customer.JPACustomerRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService {
     private final JPAAccountRepo accountRepo;
     private final JPACustomerRepo customerRepo;
-    public AccountServiceImpl(@Autowired JPAAccountRepo accountRepo, JPACustomerRepo customerRepo) {
+    private final TransactionService transactionService;
+    public AccountServiceImpl(@Autowired JPAAccountRepo accountRepo, JPACustomerRepo customerRepo, TransactionService transactionService) {
         this.accountRepo = accountRepo;
         this.customerRepo = customerRepo;
+        this.transactionService = transactionService;
     }
 
     @Override
@@ -27,22 +31,44 @@ public class AccountServiceImpl implements AccountService {
             accountRepo.save(account);
             return account;
         } else {
-            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST);
+            throw new DoesNotExistException();
         }
     }
 
     @Override
-    public List<Account> listAccounts() {
-        return accountRepo.findAll();
+    public List<Account> listAccounts(Long ownerId) {
+        if (customerRepo.findById(ownerId).isPresent()) {
+            return accountRepo.findAllByCustomer(customerRepo.findById(ownerId).get());
+        } else {
+            throw new DoesNotExistException();
+        }
     }
 
     @Override
-    public Optional<Account> getAccountByIban(String iban) {
-        return accountRepo.findById(iban);
+    public Account getAccountByIban(String iban) {
+        if(accountRepo.findById(iban).isPresent()) {
+            return accountRepo.findById(iban).get();
+        } else {
+            throw new DoesNotExistException();
+        }
     }
 
+    @Transactional
     @Override
     public void deleteAccountByIban(String iban) {
+        for (Transaction transaction : transactionService.listTransactions(iban)) {
+            transactionService.delete(transaction);
+        }
         accountRepo.deleteById(iban);
+    }
+
+    @Override
+    public void deposit(BigDecimal amount) {
+
+    }
+
+    @Override
+    public void withdraw(BigDecimal amount) {
+
     }
 }

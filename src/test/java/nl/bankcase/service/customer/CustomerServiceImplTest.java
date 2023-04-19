@@ -1,61 +1,59 @@
 package nl.bankcase.service.customer;
 
 import nl.bankcase.model.Customer;
+import nl.bankcase.utils.DoesNotExistException;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 class CustomerServiceImplTest {
-    private final CustomerService customerService;
+    private final static Long customer_id = 1L;
+    private final static String customer_name = "Test Customer";
 
-    CustomerServiceImplTest(CustomerService customerService) {
-        this.customerService = customerService;
-    }
+    @Autowired
+    private CustomerService customerService;
 
     @Test
     void newCustomer() {
         //Arrange
         //Act
-        customerService.newCustomer("Tester Test");
+        Customer customer = customerService.newCustomer(customer_name);
 
         //Assert
-        assertNotNull(customerService.getCustomerById(0L));
+        assertEquals(customer_name, customer.getName());
     }
 
     @Test
     void listCustomers() {
         //Arrange
+        customerService.newCustomer(customer_name);
+
         //Act
         //Assert
-        assertEquals(3, customerService.listCustomers().size());
+        assertFalse(customerService.listCustomers().isEmpty());
     }
 
     @Test
     void getCustomerById() {
         //Arrange
         //Act
-        Customer customer = customerService.newCustomer("Tester Test");
+        Customer customer = customerService.getCustomerById(customer_id);
 
         //Assert
-        assertEquals(customer, customerService.getCustomerById(0L));
+        assertEquals(customer.getId(), customer_id);
     }
 
     @Test
     void deleteCustomerById() {
         //Arrange
-        Customer customer = customerService.newCustomer("Tester Test");
-
         //Act
-        customerService.deleteCustomerById(customer.getId());
+        customerService.deleteCustomerById(customer_id);
 
         //Assert
-        assertNull(customerService.getCustomerById(0L));
-    }
-
-    //@Test
-    void accountsList() {
-        //Arrange
-        //Act
-        //Assert
+        assertThrows(DoesNotExistException.class,
+                () -> customerService.getCustomerById(customer_id));
     }
 }

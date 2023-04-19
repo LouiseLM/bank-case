@@ -1,11 +1,12 @@
 package nl.bankcase.model;
 
 import jakarta.persistence.*;
+import nl.bankcase.utils.AccountUtils;
+import nl.bankcase.utils.IllegalWithdrawalException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Entity
 public class Account {
@@ -21,9 +22,9 @@ public class Account {
     protected Account() {}
 
     public Account(Customer customer) {
-        BankNumber bankNumber = new BankNumber();
+        AccountUtils accountUtils = new AccountUtils();
 
-        this.iban = bankNumber.makeIban();
+        this.iban = accountUtils.makeIban();
         this.customer = customer;
     }
 
@@ -35,35 +36,19 @@ public class Account {
         return balance;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public List<Transaction> getTransactions() {
+        return List.copyOf(transactions);
     }
-}
 
-class BankNumber {
-    public String makeIban() {
-        String start = "NL";
-        Random value = new Random();
-
-        int r1 = value.nextInt(10);
-        int r2 = value.nextInt(10);
-        start += r1 + Integer.toString(r2) + " ";
-
-        int count = 0;
-        int n = 0;
-        for(int i =0; i < 12;i++)
-        {
-            if(count == 4)
-            {
-                start += " ";
-                count =0;
-            }
-            else
-                n = value.nextInt(10);
-            start += Integer.toString(n);
-            count++;
-
+    public void withdrawal(BigDecimal amount) {
+        if (balance.compareTo(amount) == -1) {
+            throw new IllegalWithdrawalException();
+        } else {
+            balance = balance.subtract(amount);
         }
-        return start;
+    }
+
+    public void deposit(BigDecimal amount) {
+        balance = balance.add(amount);
     }
 }
