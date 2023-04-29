@@ -10,10 +10,10 @@ public class Customer {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private final Long id = null;
-    private String name = null;
+    private String name;
 
     @OneToMany(mappedBy = "customer")
-    private List<Account> accounts = new ArrayList<>();
+    private final List<Account> accounts = new ArrayList<>();
 
     protected Customer() {
     }

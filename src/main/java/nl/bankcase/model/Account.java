@@ -17,7 +17,7 @@ public class Account {
     @JoinColumn(name = "customer_id")
     private Customer customer;
     @OneToMany(mappedBy = "account")
-    private List<Transaction> transactions = new ArrayList<>();
+    private final List<Transaction> transactions = new ArrayList<>();
 
     protected Account() {}
 

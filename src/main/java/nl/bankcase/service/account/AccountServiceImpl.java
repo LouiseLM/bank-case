@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -60,15 +59,5 @@ public class AccountServiceImpl implements AccountService {
             transactionService.delete(transaction);
         }
         accountRepo.deleteById(iban);
-    }
-
-    @Override
-    public void deposit(BigDecimal amount) {
-
-    }
-
-    @Override
-    public void withdraw(BigDecimal amount) {
-
     }
 }

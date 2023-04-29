@@ -11,5 +11,5 @@ public interface TransactionService {
     List<Transaction> listTransactions(String iban);
     Transaction getTransactionById(Long id);
     void delete(Transaction transaction);
-    Transaction setCategory(Long id, String category);
+    void setCategory(Long id, String category);
 }

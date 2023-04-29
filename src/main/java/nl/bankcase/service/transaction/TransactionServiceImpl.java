@@ -68,10 +68,9 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Transaction setCategory(Long id, String category) {
+    public void setCategory(Long id, String category) {
         Transaction transaction = getTransactionById(id);
         transaction.setCategory(category);
         transactionRepo.save(transaction);
-        return transaction;
     }
 }

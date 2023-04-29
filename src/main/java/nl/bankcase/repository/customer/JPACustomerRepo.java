@@ -10,5 +10,5 @@ import java.util.List;
 @Repository
 @Primary
 public interface JPACustomerRepo extends CrudRepository<Customer, Long> {
-    public List<Customer> findAll();
+    List<Customer> findAll();
 }
