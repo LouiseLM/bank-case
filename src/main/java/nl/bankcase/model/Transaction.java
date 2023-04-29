@@ -3,7 +3,8 @@ package nl.bankcase.model;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.util.Optional;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Transaction {
@@ -13,29 +14,51 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "account_id")
     private Account account;
+    private BigDecimal amount;
+    private LocalDateTime date;
     private Category category;
-    //private double c02Footprint; //TODO Find out how to do this
-    private BigDecimal amount = BigDecimal.valueOf(0);
+    private BigDecimal c02Footprint;
 
     protected Transaction() {}
 
-    public Transaction(Account account, BigDecimal amount) {
+    public Transaction(Account account, BigDecimal amount, String category) {
         this.account = account;
         this.amount = amount;
+        this.date = LocalDateTime.now();
+        setCategory(category);
     }
 
     public Long getId() {
         return id;
     }
+
     public BigDecimal getAmount() {
         return amount;
     }
 
-    public Optional<BigDecimal> getCo2Footprint() {
+    public String getDate() {
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return date.format(dateFormatter);
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public BigDecimal getC02Footprint() {
+        return c02Footprint;
+    }
+
+    public void setCategory(String category) {
+        this.category = Category.valueOf(category);
+        this.c02Footprint = setCo2Footprint();
+    }
+
+    private BigDecimal setCo2Footprint() {
         if (category == null) {
-            return Optional.empty();
+            return BigDecimal.valueOf(0);
         } else {
-            return Optional.of(amount.multiply(category.getCoefficient()));
+            return amount.multiply(category.getCoefficient());
         }
     }
 }

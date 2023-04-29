@@ -23,10 +23,10 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Transaction newWithdrawal(String iban, BigDecimal amount) {
+    public Transaction newWithdrawal(String iban, BigDecimal amount, String category) {
         if (accountRepo.findById(iban).isPresent()) {
             Account account = accountRepo.findById(iban).get();
-            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount);
+            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount, category);
             account.withdrawal(amount);
             transactionRepo.save(transaction);
             return transaction;
@@ -36,10 +36,10 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public Transaction newDeposit(String iban, BigDecimal amount) {
+    public Transaction newDeposit(String iban, BigDecimal amount, String category) {
         if (accountRepo.findById(iban).isPresent()) {
             Account account = accountRepo.findById(iban).get();
-            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount);
+            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount, category);
             account.deposit(amount);
             transactionRepo.save(transaction);
             return transaction;
@@ -65,5 +65,13 @@ public class TransactionServiceImpl implements TransactionService{
     @Override
     public void delete(Transaction transaction) {
         transactionRepo.delete(transaction);
+    }
+
+    @Override
+    public Transaction setCategory(Long id, String category) {
+        Transaction transaction = getTransactionById(id);
+        transaction.setCategory(category);
+        transactionRepo.save(transaction);
+        return transaction;
     }
 }

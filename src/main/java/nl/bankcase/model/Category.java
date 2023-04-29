@@ -5,7 +5,8 @@ import java.math.BigDecimal;
 public enum Category {
     SHOPPING(BigDecimal.valueOf(3.5)),
     GROCERIES(BigDecimal.valueOf(4.5)),
-    BILLS(BigDecimal.valueOf(1.2));
+    BILLS(BigDecimal.valueOf(1.2)),
+    OTHER(BigDecimal.valueOf(2.3));
 
     private final BigDecimal coefficient;
     Category(BigDecimal coefficient) {

@@ -26,12 +26,12 @@ public class TransactionController {
 
     @PostMapping("/withdrawal")
     public Transaction newWithdrawal(@RequestBody ObjectNode objectNode) {
-        return transactionService.newWithdrawal(objectNode.get("iban").asText(), objectNode.get("amount").decimalValue());
+        return transactionService.newWithdrawal(objectNode.get("iban").asText(), objectNode.get("amount").decimalValue(), objectNode.get("category").asText());
     }
 
     @PostMapping("/deposit")
     public Transaction newDeposit(@RequestBody ObjectNode objectNode) {
-        return transactionService.newDeposit(objectNode.get("iban").asText(), objectNode.get("amount").decimalValue());
+        return transactionService.newDeposit(objectNode.get("iban").asText(), objectNode.get("amount").decimalValue(), objectNode.get("category").asText());
     }
 
     @GetMapping("/{id}")
@@ -42,6 +42,12 @@ public class TransactionController {
     @GetMapping("/list/{ownerIban}")
     public List<Transaction> listTransactionsByIban(@PathVariable String ownerIban) {
         return transactionService.listTransactions(ownerIban);
+    }
+
+    @PutMapping("/{id}")
+    public Transaction setCategory(@PathVariable Long id, @RequestBody ObjectNode objectNode) {
+        transactionService.setCategory(id, objectNode.get("category").asText());
+        return transactionService.getTransactionById(id);
     }
 
     @ExceptionHandler({DoesNotExistException.class, IllegalWithdrawalException.class})

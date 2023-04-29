@@ -38,8 +38,8 @@ public class AccountController {
         return accountService.getAccountByIban(iban);
     }
 
-    @DeleteMapping
-    public HttpStatus deleteAccountByIban(@RequestBody String iban) {
+    @DeleteMapping("/{iban}")
+    public HttpStatus deleteAccountByIban(@PathVariable String iban) {
         accountService.deleteAccountByIban(iban);
         return HttpStatus.OK;
     }
