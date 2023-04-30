@@ -1,6 +1,6 @@
 package nl.bankcase.service.transaction;
 
-import nl.bankcase.utils.DoesNotExistException;
+import nl.bankcase.utils.exceptions.DoesNotExistException;
 import nl.bankcase.model.Account;
 import nl.bankcase.model.Transaction;
 import nl.bankcase.repository.account.JPAAccountRepo;

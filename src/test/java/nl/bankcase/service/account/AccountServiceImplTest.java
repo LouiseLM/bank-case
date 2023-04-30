@@ -1,7 +1,7 @@
 package nl.bankcase.service.account;
 
 import nl.bankcase.model.Account;
-import nl.bankcase.utils.DoesNotExistException;
+import nl.bankcase.utils.exceptions.DoesNotExistException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

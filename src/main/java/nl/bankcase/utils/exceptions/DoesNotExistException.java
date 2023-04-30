@@ -1,4 +1,4 @@
-package nl.bankcase.utils;
+package nl.bankcase.utils.exceptions;
 
 public class DoesNotExistException extends RuntimeException{
     public DoesNotExistException() {

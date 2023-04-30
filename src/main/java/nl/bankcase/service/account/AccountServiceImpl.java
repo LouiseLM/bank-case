@@ -2,7 +2,7 @@ package nl.bankcase.service.account;
 
 import nl.bankcase.model.Transaction;
 import nl.bankcase.service.transaction.TransactionService;
-import nl.bankcase.utils.DoesNotExistException;
+import nl.bankcase.utils.exceptions.DoesNotExistException;
 import nl.bankcase.model.Account;
 import nl.bankcase.repository.account.JPAAccountRepo;
 import nl.bankcase.repository.customer.JPACustomerRepo;

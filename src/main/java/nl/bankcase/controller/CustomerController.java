@@ -27,7 +27,7 @@ public class CustomerController {
 
     @GetMapping
     public List<Customer> listCustomers() {
-        return customerService.listCustomers();
+        return List.copyOf(customerService.listCustomers());
     }
 
     @GetMapping("/{id}")

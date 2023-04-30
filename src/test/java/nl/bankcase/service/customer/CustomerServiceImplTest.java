@@ -1,7 +1,7 @@
 package nl.bankcase.service.customer;
 
 import nl.bankcase.model.Customer;
-import nl.bankcase.utils.DoesNotExistException;
+import nl.bankcase.utils.exceptions.DoesNotExistException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

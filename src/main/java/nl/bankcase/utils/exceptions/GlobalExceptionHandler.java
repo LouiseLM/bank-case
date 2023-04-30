@@ -1,4 +1,4 @@
-package nl.bankcase.utils;
+package nl.bankcase.utils.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

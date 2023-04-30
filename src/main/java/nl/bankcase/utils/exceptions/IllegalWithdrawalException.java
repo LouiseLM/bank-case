@@ -1,4 +1,4 @@
-package nl.bankcase.utils;
+package nl.bankcase.utils.exceptions;
 
 public class IllegalWithdrawalException extends RuntimeException{
     public IllegalWithdrawalException() {

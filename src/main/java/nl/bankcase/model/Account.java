@@ -2,7 +2,7 @@ package nl.bankcase.model;
 
 import jakarta.persistence.*;
 import nl.bankcase.utils.AccountUtils;
-import nl.bankcase.utils.IllegalWithdrawalException;
+import nl.bankcase.utils.exceptions.IllegalWithdrawalException;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

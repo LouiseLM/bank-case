@@ -26,7 +26,7 @@ public class AccountController {
 
     @GetMapping("/list/{ownerId}")
     public List<Account> listAccounts(@PathVariable Long ownerId) {
-        return accountService.listAccounts(ownerId);
+        return List.copyOf(accountService.listAccounts(ownerId));
     }
 
     @GetMapping("/{iban}")

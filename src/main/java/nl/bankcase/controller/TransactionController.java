@@ -35,7 +35,7 @@ public class TransactionController {
 
     @GetMapping("/list/{ownerIban}")
     public List<Transaction> listTransactionsByIban(@PathVariable String ownerIban) {
-        return transactionService.listTransactions(ownerIban);
+        return List.copyOf(transactionService.listTransactions(ownerIban));
     }
 
     @PutMapping("/{id}")
