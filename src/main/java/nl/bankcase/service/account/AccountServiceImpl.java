@@ -30,7 +30,7 @@ public class AccountServiceImpl implements AccountService {
             accountRepo.save(account);
             return account;
         } else {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("The customer does not exist or could not be found.");
         }
     }
 
@@ -39,17 +39,14 @@ public class AccountServiceImpl implements AccountService {
         if (customerRepo.findById(ownerId).isPresent()) {
             return accountRepo.findAllByCustomer(customerRepo.findById(ownerId).get());
         } else {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("The customer does not exist or could not be found.");
         }
     }
 
     @Override
     public Account getAccountByIban(String iban) {
-        if(accountRepo.findById(iban).isPresent()) {
-            return accountRepo.findById(iban).get();
-        } else {
-            throw new DoesNotExistException();
-        }
+        return  accountRepo.findById(iban)
+                .orElseThrow(() -> new DoesNotExistException("The account does not exist or could not be found."));
     }
 
     @Transactional

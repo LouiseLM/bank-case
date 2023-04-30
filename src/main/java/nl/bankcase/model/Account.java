@@ -42,7 +42,7 @@ public class Account {
 
     public void withdrawal(BigDecimal amount) {
         if (balance.compareTo(amount) == -1) {
-            throw new IllegalWithdrawalException();
+            throw new IllegalWithdrawalException("Amount exceeds available funds.");
         } else {
             balance = balance.subtract(amount);
         }

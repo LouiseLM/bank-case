@@ -1,18 +1,12 @@
 package nl.bankcase.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import nl.bankcase.utils.DoesNotExistException;
-import nl.bankcase.utils.IllegalWithdrawalException;
 import nl.bankcase.model.Transaction;
 import nl.bankcase.service.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -48,12 +42,5 @@ public class TransactionController {
     public Transaction setCategory(@PathVariable Long id, @RequestBody ObjectNode objectNode) {
         transactionService.setCategory(id, objectNode.get("category").asText());
         return transactionService.getTransactionById(id);
-    }
-
-    @ExceptionHandler({DoesNotExistException.class, IllegalWithdrawalException.class})
-    public ResponseEntity<Map<String, String>> handleException(Exception ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("message", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

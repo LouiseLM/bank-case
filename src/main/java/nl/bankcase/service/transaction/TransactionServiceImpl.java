@@ -1,7 +1,6 @@
 package nl.bankcase.service.transaction;
 
 import nl.bankcase.utils.DoesNotExistException;
-import nl.bankcase.utils.IllegalWithdrawalException;
 import nl.bankcase.model.Account;
 import nl.bankcase.model.Transaction;
 import nl.bankcase.repository.account.JPAAccountRepo;
@@ -31,7 +30,7 @@ public class TransactionServiceImpl implements TransactionService{
             transactionRepo.save(transaction);
             return transaction;
         } else {
-            throw new IllegalWithdrawalException();
+            throw new DoesNotExistException("The account does not exist or could not be found.");
         }
     }
 
@@ -44,7 +43,7 @@ public class TransactionServiceImpl implements TransactionService{
             transactionRepo.save(transaction);
             return transaction;
         } else {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("The account does not exist or could not be found.");
         }
     }
 
@@ -53,13 +52,14 @@ public class TransactionServiceImpl implements TransactionService{
         if (accountRepo.findById(iban).isPresent()) {
             return transactionRepo.findAllByAccountIban(iban);
         } else {
-            throw new DoesNotExistException();
+            throw new DoesNotExistException("The account does not exist or could not be found.");
         }
     }
 
     @Override
     public Transaction getTransactionById(Long id) {
-        return transactionRepo.findById(id).orElseThrow();
+        return transactionRepo.findById(id)
+                .orElseThrow(() -> new DoesNotExistException("The transaction does not exist or could not be found."));
     }
 
     @Override

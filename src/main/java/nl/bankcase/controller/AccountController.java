@@ -1,17 +1,13 @@
 package nl.bankcase.controller;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import nl.bankcase.utils.DoesNotExistException;
 import nl.bankcase.model.Account;
 import nl.bankcase.service.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -42,12 +38,5 @@ public class AccountController {
     public HttpStatus deleteAccountByIban(@PathVariable String iban) {
         accountService.deleteAccountByIban(iban);
         return HttpStatus.OK;
-    }
-
-    @ExceptionHandler(DoesNotExistException.class)
-    public ResponseEntity<Map<String, String>> handleException(Exception ex) {
-        Map<String, String> error = new HashMap<>();
-        error.put("message", ex.getMessage());
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

@@ -32,7 +32,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer getCustomerById(Long id) {
-        return customerRepo.findById(id).orElseThrow(DoesNotExistException::new);
+        return customerRepo.findById(id)
+                .orElseThrow(() -> new DoesNotExistException("The customer does not exist or could not be found."));
     }
 
     @Transactional
