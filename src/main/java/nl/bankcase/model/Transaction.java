@@ -55,10 +55,6 @@ public class Transaction {
     }
 
     private BigDecimal setCo2Footprint() {
-        if (category == null) {
-            return BigDecimal.valueOf(0);
-        } else {
-            return amount.multiply(category.getCoefficient());
-        }
+        return amount.multiply(category.getCoefficient());
     }
 }

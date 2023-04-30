@@ -25,8 +25,8 @@ public class TransactionServiceImpl implements TransactionService{
     public Transaction newWithdrawal(String iban, BigDecimal amount, String category) {
         if (accountRepo.findById(iban).isPresent()) {
             Account account = accountRepo.findById(iban).get();
-            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount, category);
             account.withdrawal(amount);
+            Transaction transaction = new Transaction(accountRepo.findById(iban).get(), amount, category);
             transactionRepo.save(transaction);
             return transaction;
         } else {
